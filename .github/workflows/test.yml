@@ -18,6 +18,14 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@v2
 
+      - name: Install plugin from tested commit
+        shell: bash
+        env:
+          PLUGIN_REF: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          mise plugin install -f vfox-mise-plugins-vfox-chromedriver \
+            "https://github.com/mise-plugins/vfox-chromedriver.git#$PLUGIN_REF"
+
       - name: Install chromedriver using vfox plugin from GitHub
         run: |
           mise install "vfox:mise-plugins/vfox-chromedriver@131.0.6778.69"
